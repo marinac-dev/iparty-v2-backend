@@ -7,12 +7,28 @@ defmodule IpartyBackendWeb.Router do
     plug :basic_auth, Application.compile_env(:iparty_backend, :admin_dashboard)
   end
 
+  pipeline :auth do
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/api", IpartyBackendWeb do
+  # Api endpoind versioned with /api/v{VERSION_NUMBER}
+  scope "/api/v1", IpartyBackendWeb do
+    # Public pipe
     pipe_through :api
+
+    scope "/public" do
+      get "/users/:id", UserController, :show
+    end
+
+    # Authenticated pipe
+    scope "/c" do
+      pipe_through :auth
+
+      resources "/users", UserController, except: [:new, :edit]
+    end
   end
 
   scope "/admin", IpartyBackendWeb do
