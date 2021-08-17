@@ -5,16 +5,16 @@ defmodule IpartyBackendWeb.UserControllerTest do
   alias IpartyBackend.Accounts.User
 
   @create_attrs %{
-    email: "some email",
-    password_hash: "some password_hash",
-    username: "some username"
+    email: "herp@space_mail.tld",
+    password: "FitkZXnCZwQ3fLEhRNkMHt5tmFg3MLt3",
+    username: "herp"
   }
   @update_attrs %{
     email: "some updated email",
-    password_hash: "some updated password_hash",
-    username: "some updated username"
+    password: "some updated password",
+    username: "some_updated_username"
   }
-  @invalid_attrs %{email: nil, password_hash: nil, username: nil}
+  @invalid_attrs %{email: nil, password: nil, username: nil}
 
   def fixture(:user) do
     {:ok, user} = Accounts.create_user(@create_attrs)
@@ -41,9 +41,9 @@ defmodule IpartyBackendWeb.UserControllerTest do
 
       assert %{
                "id" => id,
-               "email" => "some email",
-               "password_hash" => "some password_hash",
-               "username" => "some username"
+               "email" => "herp@space_mail.tld",
+               "password" => "FitkZXnCZwQ3fLEhRNkMHt5tmFg3MLt3",
+               "username" => "herp"
              } = json_response(conn, 200)["data"]
     end
 
@@ -65,7 +65,7 @@ defmodule IpartyBackendWeb.UserControllerTest do
       assert %{
                "id" => id,
                "email" => "some updated email",
-               "password_hash" => "some updated password_hash",
+               "password" => "some updated password",
                "username" => "some updated username"
              } = json_response(conn, 200)["data"]
     end

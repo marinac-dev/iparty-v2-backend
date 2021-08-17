@@ -6,13 +6,17 @@ defmodule IpartyBackend.AccountsTest do
   describe "users" do
     alias IpartyBackend.Accounts.User
 
-    @valid_attrs %{email: "some email", password_hash: "some password_hash", username: "some username"}
-    @update_attrs %{
-      email: "some updated email",
-      password_hash: "some updated password_hash",
-      username: "some updated username"
+    @valid_attrs %{
+      email: "herp@space_mail.tld",
+      password: "FitkZXnCZwQ3fLEhRNkMHt5tmFg3MLt3",
+      username: "herp"
     }
-    @invalid_attrs %{email: nil, password_hash: nil, username: nil}
+    @update_attrs %{
+      email: "herp_new@space.mail.tld",
+      password: "MeJKHTcT3muNWPj7mn9wXK9nXb2y5UHW",
+      username: "herp_2"
+    }
+    @invalid_attrs %{email: nil, password: nil, username: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -44,9 +48,9 @@ defmodule IpartyBackend.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.email == "some email"
-      assert user.password_hash == "some password_hash"
-      assert user.username == "some username"
+      assert user.email == "herp@space_mail.tld"
+      assert Bcrypt.verify_pass("FitkZXnCZwQ3fLEhRNkMHt5tmFg3MLt3", user.password_hash)
+      assert user.username == "herp"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -56,9 +60,9 @@ defmodule IpartyBackend.AccountsTest do
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
       assert {:ok, %User{} = user} = Accounts.update_user(user, @update_attrs)
-      assert user.email == "some updated email"
-      assert user.password_hash == "some updated password_hash"
-      assert user.username == "some updated username"
+      assert user.email == "herp_new@space.mail.tld"
+      assert Bcrypt.verify_pass("MeJKHTcT3muNWPj7mn9wXK9nXb2y5UHW", user.password_hash)
+      assert user.username == "herp_2"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
