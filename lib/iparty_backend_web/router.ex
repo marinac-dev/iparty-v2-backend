@@ -8,6 +8,7 @@ defmodule IpartyBackendWeb.Router do
   end
 
   pipeline :auth do
+    plug IpartyBackendWeb.Auth.AccessPipeline
   end
 
   pipeline :api do
@@ -19,12 +20,17 @@ defmodule IpartyBackendWeb.Router do
     # Public pipe
     pipe_through :api
 
+    scope "/auth" do
+      post "/sign-in", UserController, :sign_in
+      post "/sign-up", UserController, :sign_up
+    end
+
     scope "/public" do
-      get "/users/:id", UserController, :show
+      get "/users/:id", UserController, :show_public
     end
 
     # Authenticated pipe
-    scope "/c" do
+    scope "/private" do
       pipe_through :auth
 
       resources "/users", UserController, except: [:new, :edit]

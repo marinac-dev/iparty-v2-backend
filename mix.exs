@@ -55,7 +55,9 @@ defmodule IpartyBackend.MixProject do
       # Documentation coverage
       {:excoveralls, "~> 0.10", only: :test},
       # JWT auth
-      {:guardian, "~> 2.0"}
+      {:guardian, "~> 2.0"},
+      # Password encryption
+      {:bcrypt_elixir, "~> 2.3"}
     ]
   end
 
