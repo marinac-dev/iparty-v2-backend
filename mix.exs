@@ -50,8 +50,12 @@ defmodule IpartyBackend.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+      # Static code checking
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test}
+      # Documentation coverage
+      {:excoveralls, "~> 0.10", only: :test},
+      # JWT auth
+      {:guardian, "~> 2.0"}
     ]
   end
 

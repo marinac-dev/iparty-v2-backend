@@ -39,3 +39,8 @@ config :iparty_backend,
     password: "admin",
     realm: "Do you even admin bro?"
   ]
+
+# Config Guardian | dev
+config :iparty_backend, IpartyBackend.Guardian,
+  issuer: "iparty_backend",
+  secret_key: "kulhtaCiq6CySp0gWzoj3MKhW5Bv0/qE"
