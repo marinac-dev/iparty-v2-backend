@@ -2,6 +2,8 @@ defmodule IpartyBackend.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @invalid_username "Invalid username. Only numbers, letter, uderscores (_), dots (.) and dashes (-) are allowed."
+
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
@@ -24,7 +26,7 @@ defmodule IpartyBackend.Accounts.User do
     changeset
     |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "E-mail must have the @ sign and no spaces")
-    |> validate_length(:email, max: 160)
+    |> validate_length(:email, min: 3, max: 160)
     |> unique_constraint(:email)
   end
 
@@ -33,6 +35,7 @@ defmodule IpartyBackend.Accounts.User do
     |> validate_required([:username])
     |> validate_length(:username, min: 2, max: 42)
     |> unique_constraint(:username)
+    |> validate_format(:username, ~r/^[0-9a-z\.\_\-]+$/, message: @invalid_username)
   end
 
   defp validate_password(changeset) do
