@@ -11,9 +11,6 @@ defmodule IpartyBackendWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
-      email: user.email,
-      username: user.username,
-      password_hash: user.password_hash}
+    %{id: user.id, email: user.email, username: user.username, password_hash: user.password_hash}
   end
 end

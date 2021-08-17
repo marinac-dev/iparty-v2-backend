@@ -54,6 +54,34 @@ defmodule IpartyBackend.Accounts do
   def get_user(id), do: Repo.get(User, id)
 
   @doc """
+  Gets user based on username and password.
+  Returns {:error, reason}
+
+  ## Examples
+
+      iex> get_user_by_username_and_password(nil, "123")
+      {:error, :invalid}
+
+      iex> get_user_by_username_and_password("admin", "top_secret1337")
+      {:ok, %User{}}
+  """
+
+  def get_user_by_username_and_password(nil, _password), do: {:error, :invalid}
+  def get_user_by_username_and_password(_username, nil), do: {:error, :invalid}
+
+  def get_user_by_username_and_password(username, password) do
+    with %User{} = user <- Repo.get_by(User, username: username),
+         true <- Bcrypt.verify_pass(password, user.password_hash) do
+      {:ok, user}
+    else
+      _ ->
+        # Help to mitigate timing attacks
+        Bcrypt.no_user_verify()
+        {:error, :unauthorised}
+    end
+  end
+
+  @doc """
   Creates a user.
 
   ## Examples
